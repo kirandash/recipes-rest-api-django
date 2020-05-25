@@ -1,0 +1,91 @@
+# RECIPES - REST API with Django
+
+## 1. Intro
+### 1.1 Tech Stack
+1. **Python**:
+    - Programming language
+    - v 3.8.3
+    - We will use python for writing Application logic and tests
+    - Will use PEP-8 best practice guidelines to write python code. ex: max 79 chars per line etc
+    - Automated code linting
+2. **Django**:
+    - Python web framework, easy to learn and helps build web apps rapidly
+    - v 3.0.6
+    - We will use **ORM** (Object Relational Mapper) from django to help in REST API creation. 
+        - ORM helps us convert objects to database rows.
+    - **Django Admin**: 
+        - Provides out of the box admin site
+        - Manage models
+        - Visualize DB
+3. **Django REST Framework**:
+    - Extension to Django with tons of feature related to REST framework
+    - Built in Authentication that can be used with endpoints
+    - Viewsets: for creating REST API structure for all API endpoints
+    - Serializers: 
+        - for converting Django DB models into JSON objects and vice versa 
+        - to add validations to API endpoints
+    - Also provides browsable APIs so that we can test our API endpoints directly in browser.
+4. **Docker**:
+    - helps us Isolate project dependencies from the machine
+    - Lightweight virtual machine
+    - Single image: will wrap all our project using docker to create a single image that can be run on any m/c
+    - Provides consistent dev environment across different machines
+    - Helps in Deploying to cloud platform viz MS Azure / Google cloud
+5. **Travis CI**:
+    - Automated testing and linting
+    - Email notification if build is breaking
+    - Identify issue early
+6. **PostgreSQL**:
+    - Production Grade DB
+    - Easy to setup with docker
+
+### 1.2 TDD: Test Driven Development
+1. **Unit Tests:**
+    - Checks that our code works
+    - Isolate specific code viz fns, class, API endpoints etc
+2. **Test stages:**
+    - **Setup**: create sample DB objects
+    - **Execution**: Call the code with sample setup we did earlier
+    - **Assertion**: Confirm expected o/p
+3. **Why write tests?**
+    - Expected in most professional dev teams
+    - Makes it easier to change code
+    - saves time in long run!
+    - Testable, better quality code! Since each code block must be written with testing in mind. With specific i/p and o/p. Thus creating an easy to read code.
+4. **Traditional dev vs TDD:**
+    - Traditional development: implement feature ---> Write tests. TDD: Write tests ---> Implement feature to pass the test.
+5. **Why TDD:**
+    - Increases Test coverage
+    - Ensures tests work
+    - Encourages quality code
+    - Stay focused
+
+## 2. Project setup
+### 2.1 Create Dockerfile, add Docker settings and Create docker image build
+1. Create Dockerfile in root.
+    - DockerFile contains all the dependencies of our project.
+2. We can use existing images and add our dependencies to it instead of creating an entirely new one.
+    - Go to https://hub.docker.com/
+    - Search for Python
+    - From list of tags: select 3.8-alpine (lightweight image of Docker)
+3. Add settings to DockerFile
+    - `FROM python:3.8-alpine` (Mandatory: which image we are using)
+    - `MAINTAINER Kiran Dash` (Optional: who is maintaining the project)
+    - `ENV PYTHONUNBEFFERED 1` (To tell Python to run in un buffered mode. ie not to buffer o/ps when running through Docker and print o/p directly)
+    - `COPY ./requirements.txt /requirements.txt` (To copy requirements.txt file from our current folder to Docker image path)
+    - `RUN pip install -r /requirements.txt` (Install all the requirements from Docker image)
+    - `RUN mkdir /app` (Create a directory in docker img path to contain all our source code)
+    - `WORKDIR /app` (Make the new app folder the default directory. ie: all our apps we will run using docker container will run starting from this location, unless specified)
+    - `COPY ./app /app` (Copy code from our project directory to docker image)
+    - `RUN adduser -D user` (Create a user with name user which will be used only to run processes for our project)
+    - `USER user` (to switch to the new created user)
+        - The reason we are creating a new user to run our docker image and not using the root user is because of security. If in future, the security of this user for our app is compromised then the hacker will have access to only this docker image. If we had used root user, then the hacker will have access to this docker image plus other docker images as well. Thus to limit the damage only to this docker image, create user specific to this Docker File.
+4. Create requirements.txt file and add all list of dependencies available in pypi
+    - Search for **django** in https://pypi.org/. Check the latest version. https://pypi.org/project/Django/ It is 3.0.6 right now.
+    - Add `Django>=3.0.6,<3.1.0` to req....txt file. This makes sure that we have the latest Django ie 3.0.6 and in future if any security patches comes: we will still be using that. Thus we added support till 3.1.0. But we don't want any version upgrade as that might cause our app to break. Thus, avoiding 3.2 version.
+    - Search for **djangorestframework** in pypi (python package index) Note: don't search for django-rest-framework. It wl give other results.
+    - We will use djangorestframework 3.11.0 https://pypi.org/project/djangorestframework/
+    - Add `djangorestframework>=3.11.0,<3.12.0` to get latest version + all latest minor versions till next major version
+5. Create empty folder app in project directory. Note: running docker without the folder will throw an error.
+6. **Build docker image**: In terminal run: `cd recipes-rest-api-django` and `docker build .`.
+    - The build will be relatively faster bcoz we are using alpine image which is a lightweight docker image for python.
