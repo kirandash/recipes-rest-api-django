@@ -128,3 +128,4 @@
     - check latest version on pypi: https://pypi.org/project/flake8/
 4. Add flake8 conf to root. Create .flake8 file.
     - Exclude certain files that we don't need to check
+5. Check the build at: https://travis-ci.org/github/kirandash/recipes-rest-api-django
