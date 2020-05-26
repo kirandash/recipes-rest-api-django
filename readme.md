@@ -104,3 +104,7 @@
 4. **build docker-compose**: Go to terminal and run: `docker-compose build`
     - It builds our image using docker-compose configuration.
     - o/p should be `Successfully tagged recipes-rest-api-django_app:latest`. Thus our docker image is tagged to our project.
+    
+### 2.3 Create Django Project using docker-compose
+1. From root, recipes-rest-api-django where docker-compose file is present: Run: `docker-compose run app sh -c "django-admin.py startproject app ."`
+    - Running the command on app service (the only service we have now). And then executing shell command to create a django project with name app in the current working directory WORKDIR which is app as mentioned in Dockerfile.
