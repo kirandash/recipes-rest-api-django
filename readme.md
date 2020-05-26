@@ -87,5 +87,20 @@
     - We will use djangorestframework 3.11.0 https://pypi.org/project/djangorestframework/
     - Add `djangorestframework>=3.11.0,<3.12.0` to get latest version + all latest minor versions till next major version
 5. Create empty folder app in project directory. Note: running docker without the folder will throw an error.
-6. **Build docker image**: In terminal run: `cd recipes-rest-api-django` and `docker build .`.
+6. **Build docker**: In terminal run: `cd recipes-rest-api-django` and `docker build .`.
     - The build will be relatively faster bcoz we are using alpine image which is a lightweight docker image for python.
+    
+### 2.2 Configure Docker Compose (docker-compose.yml file)
+1. Dockercompose: A tool that helps us run our docker image easily from our project location.
+    - Helps us run all the services that our project uses. Ex: python, DB etc
+2. Create docker-compose.yml file.
+    - yml file with all the services that our project will contain.
+3. Add code
+    - `version: "3"` latest docker compose version can be verified at: https://docs.docker.com/compose/compose-file/
+    - `context: .` build context should be current directory
+    - `ports: 8000:8000` map port 8000 from project to 8000 docker image
+    - `volume - ./app:/app` maps app directory from our project into app directory on docker image. This is to make sure that when we change anything in our code base, it automatically reflects on docker image.
+    - `sh -c "python manage.py runserver 0.0.0.0:8000"` shell run command python server.
+4. **build docker-compose**: Go to terminal and run: `docker-compose build`
+    - It builds our image using docker-compose configuration.
+    - o/p should be `Successfully tagged recipes-rest-api-django_app:latest`. Thus our docker image is tagged to our project.
