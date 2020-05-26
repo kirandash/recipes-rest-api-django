@@ -129,3 +129,12 @@
 4. Add flake8 conf to root. Create .flake8 file.
     - Exclude certain files that we don't need to check
 5. Check the build at: https://travis-ci.org/github/kirandash/recipes-rest-api-django
+
+## 3. Intro to TDD
+### 3.1 Writing a simple Unit test using Django TestCase
+1. Create app/calc.py file to write basic addition
+2. Create a new file app/tests.py file for unit tests
+    - Note: Django unit test script by default looks for any file/folder that begins with test and runs them.
+    - Create CalcTests class inherited from TestCase
+    - Note: all methods in class also must start with test_ Ex: test_add_numbers
+3. Terminal: `docker-compose run app sh -c "python manage.py test"`
