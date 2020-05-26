@@ -108,3 +108,23 @@
 ### 2.3 Create Django Project using docker-compose
 1. From root, recipes-rest-api-django where docker-compose file is present: Run: `docker-compose run app sh -c "django-admin.py startproject app ."`
     - Running the command on app service (the only service we have now). And then executing shell command to create a django project with name app in the current working directory WORKDIR which is app as mentioned in Dockerfile.
+    
+### 2.4 Enable Travis CI for project on github
+1. Travis is a Continuous integration tool that helps us run some automation testing every time we push some code on github.
+2. Setting up Travis CI:
+    - https://travis-ci.org sign up with github
+    - https://travis-ci.org/account/repositories: select the project from github and activate
+    - Now our project will be automatically picked up
+
+### 2.5 Create Travis CI configuration file for project
+1. Travis ci conf file tells travis what to do when we push any commit from our project
+2. Create .travis.yml file in root. and add settings:
+    - `language: python`
+    - `python: "3.8"`: check for latest version at: https://docs.travis-ci.com/user/languages/python/
+    - `services: docker` we will just run our docker service and docker will handle everything else
+    - `before_script: pip install docker-compose`: scripts to run before running main script: in our case install docker-compse
+    - `script: docker-compose run app sh -c "python manage.py test && flake8"`: run test and flake8. flake8 is a linting tool
+3. Add flake8 to requirements.txt
+    - check latest version on pypi: https://pypi.org/project/flake8/
+4. Add flake8 conf to root. Create .flake8 file.
+    - Exclude certain files that we don't need to check
