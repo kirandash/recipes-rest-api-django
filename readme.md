@@ -129,6 +129,7 @@
 4. Add flake8 conf to root. Create .flake8 file.
     - Exclude certain files that we don't need to check
 5. Check the build at: https://travis-ci.org/github/kirandash/recipes-rest-api-django
+6. Also run a build locally for flake8 to install: `docker-compose build`. Note: every time a new requirement is added, run build once for installation.
 
 ## 3. Intro to TDD
 ### 3.1 Writing a simple Unit test using Django TestCase
@@ -138,3 +139,11 @@
     - Create CalcTests class inherited from TestCase
     - Note: all methods in class also must start with test_ Ex: test_add_numbers
 3. Terminal: `docker-compose run app sh -c "python manage.py test"`
+
+### 3.2 Writing a unit test with TDD
+1. TDD Approach: Write test first and then build the functionality.
+2. Add test case to app/tests.py. Run test with `docker-compose run app sh -c "python manage.py test"`. Make sure test fails.
+3. Add subtract method to app/calc.py. Run test to make sure test pass.
+4. To check linting issues as well: Run test with flake `docker-compose run app sh -c "python manage.py test && flake8"`
+5. Pros of TDD: 
+    - We now know that our test is working. as we start with a failed test and then write code to make it pass
