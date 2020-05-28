@@ -147,3 +147,12 @@
 4. To check linting issues as well: Run test with flake `docker-compose run app sh -c "python manage.py test && flake8"`
 5. Pros of TDD: 
     - We now know that our test is working. as we start with a failed test and then write code to make it pass
+    
+## 4. Configure Django Custom User model
+### 4.1 Create core app
+1. Core app: will contain all the central code which will then be used/shared in the sub apps. Ex: Migrations, DB etc.
+2. Create app: `docker-compose run app sh -c "python manage.py startapp core"`
+3. Clean up: 
+    - core/tests.py: later will add tests in separate tests/folder. Note: for running tests, either have test file or test folder. Having both will create error. So, we will use the folder approach.
+    - core/views.py: we don't need any view in core app. Since we will not serve anything
+4. Create core/tests/__init__.py: will add tests here.
