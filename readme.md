@@ -152,7 +152,14 @@
 ### 4.1 Create core app
 1. Core app: will contain all the central code which will then be used/shared in the sub apps. Ex: Migrations, DB etc.
 2. Create app: `docker-compose run app sh -c "python manage.py startapp core"`
+    - Add 'core' to INSTALLED_APPS list in settings.py file
 3. Clean up: 
     - core/tests.py: later will add tests in separate tests/folder. Note: for running tests, either have test file or test folder. Having both will create error. So, we will use the folder approach.
     - core/views.py: we don't need any view in core app. Since we will not serve anything
 4. Create core/tests/__init__.py: will add tests here.
+
+### 4.2 Add tests for Custom user model using django TestCase
+1. The default user model from Django needs username, email, password to create a new user. We will customize User model to not require username and just create new user with email and password. As per TDD, first 
+2. core/test/ - create test_models.py file
+3. Add test case for test_create_user_with_email_successsful fn
+4. Run test and make sure it is failing with message username is required. Since default create_user method needs username.
