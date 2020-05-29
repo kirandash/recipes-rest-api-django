@@ -11,6 +11,7 @@ class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     # show email and name in list view
     list_display = ['email', 'name']
+    # Fieldsets for edit user page
     fieldsets = (
         # 4 sections
         # (title, {fields})
@@ -24,6 +25,13 @@ class UserAdmin(BaseUserAdmin):
         ),
         # important dates section
         (_('Important dates'), {'fields': ('last_login',)}),
+    )
+    # Fieldsets for Add user page
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2')
+        }),  # always make sure to add a comma when there is one item in an obj
     )
 
 

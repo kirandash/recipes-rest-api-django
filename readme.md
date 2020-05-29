@@ -217,3 +217,10 @@
 2. Implement in core/admin.py file
     - Fieldsets: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.fieldsets
     - Run test
+
+### 5.4 Modify Django Admin to support creating user
+1. test_admin.py:
+    - Add test to check if add user page works
+    - Should fail with error: "FieldError: Unknown field(s) (username) specified for User." Because default django add user page is expecting a username, but in our case we have used email and don't have username.
+2. Add fieldsets for add user page in test_admin.py to overwrite default fields of django to show only email, pwd1 and pwd2 and ignore username.
+    - Run test
