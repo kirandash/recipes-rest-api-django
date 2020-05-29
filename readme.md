@@ -206,3 +206,6 @@
 ### 5.2 Modify Django admin to list our custom user model
 1. Go to core/admin.py file and make changes.
     - Read more at: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.fieldsets
+    - Create UserAdmin extended from BaseUserAdmin. (To modify defauly django admin view)
+    - Register custom user model with UserAdmin
+    - Test again to check for pass
