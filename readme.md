@@ -203,4 +203,6 @@
     - Read more about Django admin at: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/
     - Run test. Should fail with "NoReverseMatch: Reverse for 'core_user_changelist' not found. 'core_user_changelist' is not a valid view function or pattern name."
 
-
+### 5.2 Modify Django admin to list our custom user model
+1. Go to core/admin.py file and make changes.
+    - Read more at: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.fieldsets
