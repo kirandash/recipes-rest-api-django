@@ -187,4 +187,12 @@
 2. Implement feature in core/models.py
     - if there is no email, raise a ValueError
     - Run test to check for pass
+    
+### 4.6 Add support for creating super user
+1. By default we can create a super user using terminal. Now, we will add this functionality in our custom model, so that we can create a super user using user manager. And it should be set as staff by default.
+2. Add test to test_models.py file
+    - test case: test_create_new_superuser
+    - Run test to fail with "AttributeError: 'UserManager' object has no attribute 'create_superuser'"
+3. Implement feature in core/models.py
+
 

@@ -36,3 +36,16 @@ class ModelTests(TestCase):
                 None,
                 'test123'
             )
+
+    def test_create_new_superuser(self):
+        """Test creating a new superuser"""
+        user = get_user_model().objects.create_superuser(
+            'test@bgwebagency.com',
+            'test123'
+        )
+
+        # check if user is a superuser
+        # check if user is a super user and user is a staff
+        # is_superuser is included in user model as part of permissions mixin
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)

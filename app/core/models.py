@@ -22,6 +22,18 @@ class UserManager(BaseUserManager):
 
         return user
 
+    # will use create_superuser only from terminal so no need of extra_fields
+    def create_superuser(self, email, password):
+        """Creates and saves a new super user"""
+        # call create_user fn which we created above
+        user = self.create_user(email, password)
+        # set is_staff and is_superuser to True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+
+        return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that supports using email instead of username"""
