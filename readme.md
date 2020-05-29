@@ -172,3 +172,10 @@
 3. app/settings.py file: add settings for custom user model
 4. Run migrations: `docker-compose run app sh -c "python manage.py makemigrations core"`. Note: always better to mention app name in migration command. It will create the migrations/ files which will then be used to create fields in DB.
 5. Run test: `docker-compose run app sh -c "python manage.py test && flake8"`
+
+### 4.4 Normalize Email address
+1. Create test in test_models.py file for the feature: normalizing email address. By default, email field is case sensitive. We want to change that feature and make it case insensitive by transforming the entered data into lowercase.
+    - Add test_new_user_email_normalized fn
+    - Run test to make sure it fails
+2. Implement feature in core/model.spy file
+    - Run test to make sure it pass

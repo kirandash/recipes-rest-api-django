@@ -11,7 +11,8 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """Creates and saves a new user"""
         # Create a new model
-        user = self.model(email=email, **extra_fields)
+        # normalize_email: helper fn that comes with BaseUserManager class
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         # set_password helper fn
         user.set_password(password)
         # the self._db option is helpful when we are using multiple DBs
