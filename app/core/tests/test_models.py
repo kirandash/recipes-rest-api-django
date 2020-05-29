@@ -27,3 +27,12 @@ class ModelTests(TestCase):
 
         # .lower() is a string fn that makes the input lowercase
         self.assertEqual(user.email, email.lower())
+
+    def test_new_user_invalid_email(self):
+        """Test creating user with no email raises error"""
+        with self.assertRaises(ValueError):
+            # anything we run here should raise the ValueError
+            get_user_model().objects.create_user(
+                None,
+                'test123'
+            )

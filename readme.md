@@ -177,5 +177,14 @@
 1. Create test in test_models.py file for the feature: normalizing email address. By default, email field is case sensitive. We want to change that feature and make it case insensitive by transforming the entered data into lowercase.
     - Add test_new_user_email_normalized fn
     - Run test to make sure it fails
-2. Implement feature in core/model.spy file
+2. Implement feature in core/models.py file
     - Run test to make sure it pass
+    
+### 4.5 Add validation for email field
+1. Add test in test_models.py for validation. Feature: If no email is provided during user creation, django must return a ValueError.
+    - Add test_new_user_invalid_email test case
+    - Run test to fail with "AssertionError: ValueError not raised"
+2. Implement feature in core/models.py
+    - if there is no email, raise a ValueError
+    - Run test to check for pass
+
