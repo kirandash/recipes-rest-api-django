@@ -163,3 +163,12 @@
 2. core/test/ - create test_models.py file
 3. Add test case for test_create_user_with_email_successsful fn
 4. Run test and make sure it is failing with message username is required. Since default create_user method needs username.
+
+### 4.3 Implement Custom user model
+1. Let's create custom user model so our test case can pass.
+2. core/models.py
+    - create UserManager extending from BaseUserManager
+    - Create User model class
+3. app/settings.py file: add settings for custom user model
+4. Run migrations: `docker-compose run app sh -c "python manage.py makemigrations core"`. Note: always better to mention app name in migration command. It will create the migrations/ files which will then be used to create fields in DB.
+5. Run test: `docker-compose run app sh -c "python manage.py test && flake8"`
