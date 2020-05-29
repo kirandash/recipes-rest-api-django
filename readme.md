@@ -195,4 +195,12 @@
     - Run test to fail with "AttributeError: 'UserManager' object has no attribute 'create_superuser'"
 3. Implement feature in core/models.py
 
+## 5. Setup Django Admin
+### 5.1 Add tests for listing users in admin
+1. Create tests/test_admin.py
+    - Create AdminSiteTests class. Create test case test_users_listed: to see if users are listed on an admin page: admin:core_user_changelist
+    - In setup: create a test client. Read more at https://docs.djangoproject.com/en/2.2/topics/testing/tools/#overview-and-a-quick-example
+    - Read more about Django admin at: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/
+    - Run test. Should fail with "NoReverseMatch: Reverse for 'core_user_changelist' not found. 'core_user_changelist' is not a valid view function or pattern name."
+
 
