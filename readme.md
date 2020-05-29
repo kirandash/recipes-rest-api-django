@@ -209,3 +209,11 @@
     - Create UserAdmin extended from BaseUserAdmin. (To modify defauly django admin view)
     - Register custom user model with UserAdmin
     - Test again to check for pass
+
+### 5.3 Modify Django Admin to support changing user model
+1. test_admin.py:
+    - Add test to check if user edit page loads
+    - Run test. Should fail with FieldError since it is still using default fields from django and not our new custom user model.
+2. Implement in core/admin.py file
+    - Fieldsets: https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.fieldsets
+    - Run test
