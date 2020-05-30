@@ -291,3 +291,23 @@
     - wait_for_db ---> migrate ---> run_server
 3. Run docker: `docker-compose up`: should setup DB, Migrate and run server
 4. Run test: `docker-compose run app sh -c "python manage.py test && flake8`
+
+### 7.5 Run app on browser and create super user
+1. Run docker: `docker-compose up`
+2. Docker will start app at: `0.0.0.0:8000` which will be translated by docker compose for us to localhost:8000 or 127.0.0.1:8000
+3. Create super user: `docker-compose run app sh -c "python manage.py createsuperuser"`
+    - Note: This will not ask for username unline default django super user creation. Since we modified user management code to only ask for email, password.
+4. Login to django admin.
+
+## 8. Create user management endpoints
+### 8.1 Create users app
+1. Will create endpoints for users creation, change password etc
+2. Run: `docker-compose run --rm app sh -c "python manage.py startapp user"`
+    - --rm will remove the container after the command is run. For cleaner container (optional: since docker-compose down will remove it anyway) Just a better practice
+3. Cleanup:
+    - remove migrations - will add to core
+    - remove admin.py - will add to core
+    - remove models.py - will add to core
+    - remove tests.py - will add to user/tests/ folder
+    - create user/tests/__init__.py file
+4. Add rest_framework, rest_framework.authtoken and users app to settings.py file
