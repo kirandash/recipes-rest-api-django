@@ -277,3 +277,9 @@
     - create test_commands.py file
     - Add test case for test_wait_for_db_ready, test_wait_for_db
     - Test should fail with error: "Unknown command: 'wait_for_db'"
+
+### 7.3 Create wait_for_db management command
+1. Create management/commands/wait_for_db.py file. (Note: Folder path names are django std recommendation)
+2. Create Command class extended from django BaseCommand.
+    - Read more here: https://docs.djangoproject.com/en/2.1/ref/django-admin/#django.core.management.call_command
+3. Run test

@@ -21,10 +21,11 @@ class CommandTests(TestCase):
             # check if get_item is called once
             self.assertEqual(gi.call_count, 1)
 
-    # Functionality - db calls should wait for 5 times and exit
-    # patch decorator to not wait for subsequent calls to db
-    # to improve test speed
-    # in real code, we will have some delay in getitem b/w db calls
+    # Functionality - db calls should keep trying until success
+    # will mock by failing for 5 times and then returning true
+    # patch decorator with time.sleep to not wait for subsequent calls to db
+    # to improve test speed by setting time.sleep to return True and no delay
+    # in real code, we will have some delay (1s) in getitem b/w db calls
     @patch('time.sleep', return_value=True)
     def test_wait_for_db(self, ts):
         """Test waiting for db"""
