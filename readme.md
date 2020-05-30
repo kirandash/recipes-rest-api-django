@@ -253,3 +253,9 @@
 4. Remove temporary dependecies:
     - `RUN apk del .tmp-build-deps`
 5. Build: `docker-compose build` and make sure image is built successfully
+
+### 6.3 Configure database in Django
+1. settings.py
+    - modify DB configuration
+    - os.environ.get will get environment variables from docker-compose.yml
+    - In future, when deploying to different servers: we need to just modify the env info in docker-compose.yml
