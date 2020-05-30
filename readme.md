@@ -259,3 +259,21 @@
     - modify DB configuration
     - os.environ.get will get environment variables from docker-compose.yml
     - In future, when deploying to different servers: we need to just modify the env info in docker-compose.yml
+
+## 7. Waiting for postgres to start
+### 7.1 Mocking with unit tests
+1. **Mocking**:
+    - Means Change behavior of dependencies of the code that we are testing
+    - We use mocking to Avoid unintended side effects
+    - We use mocking to isolate the specific code to be tested
+    - Ex: sending email. Send mock email instead of real one by modifying real email dependency with mock dependency
+2. When writing unit tests,
+    - Never depend on external services. (since can't guarantee liability of 3rd party service is up or not)
+    - Always use mock and not real services (to avoid spamming, clogging)
+
+### 7.2 Add tests for wait_for_db_command
+1. To avoid any exception, and improve reliability of our project it is better to first load the postgres db and wait for it to fully load and once loaded, start the django project.
+2. Add test for new feature.
+    - create test_commands.py file
+    - Add test case for test_wait_for_db_ready, test_wait_for_db
+    - Test should fail with error: "Unknown command: 'wait_for_db'"
