@@ -283,3 +283,11 @@
 2. Create Command class extended from django BaseCommand.
     - Read more here: https://docs.djangoproject.com/en/2.1/ref/django-admin/#django.core.management.call_command
 3. Run test
+
+### 7.4 Make Docker Compose wait for db
+1. Will use wait_for_db command in docker-compose.yml file.
+2. docker-compose.yml file
+    - Modify command under app services
+    - wait_for_db ---> migrate ---> run_server
+3. Run docker: `docker-compose up`: should setup DB, Migrate and run server
+4. Run test: `docker-compose run app sh -c "python manage.py test && flake8`
