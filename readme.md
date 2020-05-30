@@ -238,4 +238,18 @@
     - Add dependency of db service on app. So that
         - db service loads before app service
         - db service is accessible through app service
-    
+
+### 6.2 Add postgres to Dockerfile
+1. Will add some dependencies so that Django can communicate with Docker
+2. requirements.txt - Add dependencies
+    - **Psycopg:** is the most popular PostgreSQL database adapter for the Python programming language. Read more at: https://pypi.org/project/psycopg2/
+3. Add dependencies to Dockerfile
+    - `RUN apk add --update --no-cache postgresql-client`. It uses the package manager apk from apline to add postgresql-client package. --update means: update the registry before we add the package. --no-cache: means don't store the registry index on dockerfile. To minimize the no of packages that we store in our docker container. To maintain docker container with smaller footprint with no unnecessary dependencies.
+    - Add temporary dependencies for postgres client
+        - `RUN apk add --update --no-cache --virtual .tmp-build-deps gcc libc-dev linux-headers postgresql-dev`
+        - --virtual: so it can be remove lates
+        - .tmp-build-deps: alias for temporary build dependencies for all our packages
+        - To have smaller footprint
+4. Remove temporary dependecies:
+    - `RUN apk del .tmp-build-deps`
+5. Build: `docker-compose build` and make sure image is built successfully
