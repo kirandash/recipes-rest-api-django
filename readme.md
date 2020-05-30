@@ -224,3 +224,18 @@
     - Should fail with error: "FieldError: Unknown field(s) (username) specified for User." Because default django add user page is expecting a username, but in our case we have used email and don't have username.
 2. Add fieldsets for add user page in test_admin.py to overwrite default fields of django to show only email, pwd1 and pwd2 and ignore username.
     - Run test
+
+## 6. Setting up DataBase
+### 6.1 Add postgres to Docker compose
+1. Django by default uses sqlite db. We will configure our project to use postgres.
+2. docker-compose.yml
+    - Add db service
+    - `image: postgres:12-alpine`: to use an image of postgresql v12 of alpine(lighter version).
+        - Read more at https://hub.docker.com/_/postgres/
+    - Add environment details. Read more at: https://docs.docker.com/compose/environment-variables/
+    - For postgres password: use something simple for local. But in prod, use a secure password from jenkis/travis etc.
+    - Add environment settings to app service.
+    - Add dependency of db service on app. So that
+        - db service loads before app service
+        - db service is accessible through app service
+    
