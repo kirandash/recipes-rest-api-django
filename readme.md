@@ -477,3 +477,11 @@
 1. Create recipes/tests/test_tags_api.py
     - Create test cases: test_login_required, test_retrieve_tags, test_tags_limited
 2. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` Should fail with "No module named 'recipe.serializers'"
+
+### 9.4 Implement feature to List Tags
+1. Create recipe/serializers.py file
+    - Create TagSerializer class extended from serializers.ModelSerializer
+2. recipes/views.py file
+    - Create TagViewSet
+3. Create recipe/urls.py file
+4. Include recipe/urls.py in app/urls.py file
