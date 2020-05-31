@@ -37,7 +37,7 @@ class PublicUserApiTests(TestCase):
             'name': 'Tester Dash'
         }
         # post call to user url
-        res = self.client.post(CREATE_USER_URL)
+        res = self.client.post(CREATE_USER_URL, payload)
 
         # check status code for 201 created
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)

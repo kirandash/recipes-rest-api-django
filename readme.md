@@ -364,12 +364,29 @@
     - create user/tests/__init__.py file
 4. Add rest_framework, rest_framework.authtoken and users app to settings.py file
 
-### 8.2 Add tests for Create Users API
+### 8.2 Add tests for Create User API
 1. Will add test for Create Users API endpoint
 2. settings.py, make sure INSTALLED_APP has `user` app added.
-2. user/tests/test_user_api.py
+3. user/tests/test_user_api.py
     - Add test cases for: test_create_valid_user_success, test_user_exists, test_password_too_short.
     - **Note**: While running tests, after each test case, the data from DB is refreshed and removed. So, data from one test case will not effect other test case
     - Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`. The `--rm` option is to make sure that our docker container is removed after performing the test and not linger in the system.
     - should fail with "NoReverseMatch: 'user' is not a registered namespace". Because we have not created the user url yet in our project
+4. Docs:
+    - get_user_model: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#django.contrib.auth.get_user_model
 
+### 8.3 Implement Create User API
+1. Create serializer for create user request ---> Create view to handle the request ---> bind the view to a URL which we can access as an endpoint.
+2. Create user/serializers.py file
+    - Create UserSerializer class extended from serializers.ModelSerializer
+    - The default create method will take a plain password. Make sure to encrypt it before passing to django
+3. user/views.py
+    - create CreateUserView extended from rest_framework generics CreateAPIView
+4. Create user/urls.py:
+    - Map view to url
+5. Include the user/urls.py in app/urls.py
+6. Run test for pass
+    - Also can be verified on browser at http://127.0.0.1:8000/api/user/create/
+7. Docs: 
+    - https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
+8. Note: # is for comment """""" is for doc string.
