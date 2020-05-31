@@ -443,3 +443,17 @@
     - Try updating the data from Raw data tab using PATCH. Since form will ask for password. (form works on PUT method, so all fields must be provided)
     - **PUT vs PATCH:** PUT: Updates and replaces the entire object. So we must provide all the fields. While PATCH: Updates the specific field mentioned in JSON structure. So only required to provide specific fields.
 
+## 9. Create Tags endpoint
+1. Tags endpoint will allow us to add tags to our recipes and help us sorting/filtering them.
+### 9.1 Create recipe app
+1. All recipe related endpoints will be stored in recipes app
+    - recipe, tags, ingredients endpoint
+2. Create recipe app:
+    `docker-compose run --rm app sh -c "python manage.py startapp recipe"`
+3. Cleanup:
+    - Remove migrations/: present in core
+    - Remove admin.py: present in core
+    - Remove models.py: present in core
+    - Remove tests.py: will add in recipe/tests folder
+    - Add tests/__init__.py
+
