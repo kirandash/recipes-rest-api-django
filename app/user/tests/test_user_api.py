@@ -12,6 +12,7 @@ from rest_framework import status
 
 # Generate user/create url and assign to variable
 CREATE_USER_URL = reverse('user:create')
+TOKEN_URL = reverse('user:token')
 
 
 # create a short hand fn for create_user from get_user_model
@@ -70,3 +71,41 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
+
+    def test_create_token_for_user(self):
+        """Test that a token is created for the user"""
+        payload = {'email': 'test@bgwebagency.com', 'password': 'django1234'}
+        create_user(**payload)
+        res = self.client.post(TOKEN_URL, payload)
+
+        # check if token exists in response
+        self.assertIn('token', res.data)
+        # No need to test if token works, since 3rd party, trust rest_framework
+        # just check if status code is ok
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_create_token_invalid_credentials(self):
+        """Test that token is not created if invalid credentials are given"""
+        create_user(email='test@bgwebagency.com', password='django1234')
+        payload = {'email': 'test@bgwebagency.com', 'password': '1234django'}
+        res = self.client.post(TOKEN_URL, payload)
+
+        # Check that token is not returned in response
+        self.assertNotIn('token', res.data)
+        # check status code is 400
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_no_user(self):
+        """Test that token is not created if user does not exist"""
+        payload = {'email': 'test@bgwebagency.com', 'password': 'django1234'}
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_missing_field(self):
+        """Test that email and password are required"""
+        res = self.client.post(TOKEN_URL, {'email': 'one', 'password': ''})
+
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

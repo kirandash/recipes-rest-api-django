@@ -390,3 +390,12 @@
 7. Docs: 
     - https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
 8. Note: # is for comment """""" is for doc string.
+
+### 8.4 Add tests for creating a new token
+1. Will create an end point to generate an auth token to authenticate future requests for any API.
+    - Thus no need of sending username and pwd with each requests and just keep sending the token.
+    - The token can be reverted any time from the DB for suspicious users.
+2. Add unit tests to: user/tests/test_user_api.py
+    - Create test cases for Public view: test_create_token_for_user, test_create_token_invalid_credentials, test_create_token_no_user, test_create_token_missing_field
+3. Test should fail with: django.urls.exceptions.NoReverseMatch: Reverse for 'token' not found. 'token' is not a valid view function or pattern name. 
+    - Since we have not created the url yet
