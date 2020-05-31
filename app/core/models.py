@@ -2,6 +2,8 @@ from django.db import models
 # imports required from django to customize use rmodel
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
+# To retrieve AUTH settings
+from django.conf import settings
 
 
 # user manager class - provides helper fn for creating user / superuser
@@ -47,3 +49,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # Set email as the USERNAME_FIELD
     USERNAME_FIELD = 'email'
+
+
+class Tag(models.Model):
+    """Tag to be used for a recipe"""
+    name = models.CharField(max_length=255)
+    # recommended way of fetching auth user: use settings from django.conf
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )  # CASCADE means on deleting user, delete the tag as well
+
+    # string representation of Tag model on admin
+    def __str__(self):
+        return self.name

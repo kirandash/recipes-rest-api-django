@@ -457,3 +457,19 @@
     - Remove tests.py: will add in recipe/tests folder
     - Add tests/__init__.py
 
+### 9.2 Create Tag model
+1. Will create Tag DB model to handle tag objects
+    - will accept name of tag and user that owns tag
+2. Create test
+    - core/tests/test_models.py
+3. Run test should fail with: "AttributeError: module 'core.models' has no attribute 'Tag'"
+4. Create model
+    - core/models.py file: create Tag class extended from models.Model
+5. Register Tag model in core/admin.py
+6. Create migration
+    - `docker-compose run --rm app sh -c "python manage.py makemigrations"`
+    - will create migration files under core/migrations/0002_tag.py
+7. Apply migration
+    - `docker-compose run --rm app sh -c "python manage.py migrate"`
+8. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
+
