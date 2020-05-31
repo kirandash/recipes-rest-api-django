@@ -472,16 +472,33 @@
 7. Apply migration
     - `docker-compose run --rm app sh -c "python manage.py migrate"`
 8. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
+9. Docs:
+    - DJ model str: https://docs.djangoproject.com/en/3.0/ref/models/instances/#django.db.models.Model.__str__
+    - DJ admin register: https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin
+    - DJ Foreign key: https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.ForeignKey
+    - DJ Foreign key on_delete: https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.ForeignKey.on_delete
+    - Http status codes: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 
 ### 9.3 Add Tests for Listing tags
 1. Create recipes/tests/test_tags_api.py
     - Create test cases: test_login_required, test_retrieve_tags, test_tags_limited
 2. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` Should fail with "No module named 'recipe.serializers'"
 
-### 9.4 Implement feature to List Tags
+### 9.4 Implement endpoint to List Tags
 1. Create recipe/serializers.py file
     - Create TagSerializer class extended from serializers.ModelSerializer
 2. recipes/views.py file
     - Create TagViewSet
 3. Create recipe/urls.py file
 4. Include recipe/urls.py in app/urls.py file
+5. Docs:
+    - DRF Model Serializer: https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
+    - DRF GenericViewSet: https://www.django-rest-framework.org/api-guide/viewsets/#genericviewset
+    - DRF GenericViewSet example: https://www.django-rest-framework.org/api-guide/viewsets/#example_3
+
+### 9.5 Implement create tags endpoint
+1. recipe/tests/test_tags_api.py
+    - add test cases: test_create_tag_successful, test_create_tag_invalid - Run test to fail
+2. recipe/views.py:
+    - Add CreateModelMixin to TagViewSet
+3. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`
