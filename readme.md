@@ -380,16 +380,16 @@
 2. Create user/serializers.py file
     - Create UserSerializer class extended from serializers.ModelSerializer
     - The default create method will take a plain password. Make sure to encrypt it before passing to django
+    - Docs: modelserializer: https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
 3. user/views.py
     - create CreateUserView extended from rest_framework generics CreateAPIView
+    - Docs: CreateAPIView: https://www.django-rest-framework.org/api-guide/generic-views/#createapiview
 4. Create user/urls.py:
     - Map view to url
 5. Include the user/urls.py in app/urls.py
 6. Run test for pass
-    - Also can be verified on browser at http://127.0.0.1:8000/api/user/create/
-7. Docs: 
-    - https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
-8. Note: # is for comment """""" is for doc string.
+    - Also can be verified on browser at http://127.0.0.1:8000/api/user/create/ 
+7. Note: # is for comment """""" is for doc string.
 
 ### 8.4 Add tests for creating a new token
 1. Will create an end point to generate an auth token to authenticate future requests for any API.
@@ -404,8 +404,10 @@
 1. Serializers ---> View ---> url
 2. user/serializers.py
     - create AuthTokenSerializer extended from serializers.Serializer. Thus, we will use the default django auth serializer.
+    - Docs: AuthTokenSerializer: https://github.com/encode/django-rest-framework/blob/a628a2dbce8f8f3047d30fe5345f86ae843bcdcc/rest_framework/authtoken/serializers.py#L7
 3. user/views.py
     - Create CreateTokenView extended from ObtainAuthToken
+    - Docs: ObtainAuthToken: https://www.django-rest-framework.org/api-guide/authentication/#by-exposing-an-api-endpoint
 4. user/urls.py:
     - Map view to url
 5. Run test `docker-compose run --rm app sh -c "python manage.py test && flake8"`
@@ -421,3 +423,23 @@
     - PrivateUserAPITests: test_retrieve_profile_success, test_post_not_allowed, test_update_user_profile
 3. Run test `docker-compose run --rm app sh -c "python manage.py test && flake8"`
     - should fail with "NoReverseMatch: Reverse for 'me' not found. 'me' is not a valid view function or pattern name."
+
+### 8.7 Create Manage user endpoint
+1. user/views.py
+    - Create ManageUserView extended from generics.RetrieveUpdateAPIView
+    - Docs: RetrieveUpdateAPIView: https://www.django-rest-framework.org/api-guide/generic-views/#retrieveupdateapiview
+2. user/serializers.py
+    - Add update method to UserSerializer
+3. user/urls.py:
+    - Map view to url
+4. Run test `docker-compose run --rm app sh -c "python manage.py test && flake8"`
+5. Test on browser: 
+    - Visit: http://127.0.0.1:8000/api/user/me/ Should throw invalid token error
+    - http://127.0.0.1:8000/api/user/token/ - Copy token from here
+    - Install modheader chrome extension: ModHeader allows us to modify header of API request directly from browser. 
+    - URL: https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj
+    - Open modheader and add, name value pair as: Authorization, Token 34kk.....
+    - Reload http://127.0.0.1:8000/api/user/me/ should return the user data
+    - Try updating the data from Raw data tab using PATCH. Since form will ask for password. (form works on PUT method, so all fields must be provided)
+    - **PUT vs PATCH:** PUT: Updates and replaces the entire object. So we must provide all the fields. While PATCH: Updates the specific field mentioned in JSON structure. So only required to provide specific fields.
+
