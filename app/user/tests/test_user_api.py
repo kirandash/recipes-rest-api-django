@@ -13,6 +13,7 @@ from rest_framework import status
 # Generate user/create url and assign to variable
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
+ME_URL = reverse('user:me')
 
 
 # create a short hand fn for create_user from get_user_model
@@ -25,7 +26,7 @@ def create_user(**params):
 class PublicUserApiTests(TestCase):
     """Test the users API (public)"""
 
-    # set up tasks to run before anything else in the class
+    # set up tasks to run before each test in the class
     def setUp(self):
         # set up mock API client. So, no need to set up with each fn
         self.client = APIClient()
@@ -109,3 +110,56 @@ class PublicUserApiTests(TestCase):
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorized(self):
+        """Test that authentication is required for users"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserAPITests(TestCase):
+    """Test API requests that require Authentication"""
+
+    # set up tasks to run before each test in the class
+    def setUp(self):
+        self.user = create_user(
+            email='test@bgwebagency.com',
+            password='django1234',
+            name='Tester Dash'
+        )
+        # create a reusable client
+        self.client = APIClient()
+        # authenticate with mock api client using dummy user
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_success(self):
+        """Test retrieving profile for logged in user"""
+        res = self.client.get(ME_URL)
+
+        # check if retrieve is success with status code 200
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        # check if response data has same name and email & not password
+        self.assertEqual(res.data, {
+            'name': self.user.name,
+            'email': self.user.email
+        })
+
+    def test_post_not_allowed(self):
+        """Test that post is not allowed on the me url"""
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_update_user_profile(self):
+        """Test updating the user profile for authenticated user"""
+        payload = {'name': 'new name', 'password': 'newdjango1234'}
+
+        res = self.client.patch(ME_URL, payload)
+
+        # refresh_from_db helper fn to update user with latest value from db
+        self.user.refresh_from_db()
+
+        self.assertEqual(self.user.name, payload['name'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
