@@ -12,7 +12,7 @@ def sample_user(email='test@bgwebagency.com', password='django1234'):
 
 
 class ModelTests(TestCase):
-    def test_create_user_with_email_successsful(self):
+    def test_create_user_with_email_successful(self):
         """Test creating a new user with an email is successful"""
         email = "test@bgwebagency.com"
         password = "testpass@123"

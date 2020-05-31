@@ -460,7 +460,7 @@
 ### 9.2 Create Tag model
 1. Will create Tag DB model to handle tag objects
     - will accept name of tag and user that owns tag
-2. Create test
+2. Add test case: test_tag_str
     - core/tests/test_models.py
 3. Run test should fail with: "AttributeError: module 'core.models' has no attribute 'Tag'"
 4. Create model
@@ -473,3 +473,7 @@
     - `docker-compose run --rm app sh -c "python manage.py migrate"`
 8. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
 
+### 9.3 Add Tests for Listing tags
+1. Create recipes/tests/test_tags_api.py
+    - Create test cases: test_login_required, test_retrieve_tags, test_tags_limited
+2. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` Should fail with "No module named 'recipe.serializers'"
