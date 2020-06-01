@@ -540,3 +540,10 @@
 3. Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` with pass
 4. Test on browser:
     - http://localhost:8000/api/recipe/ingredients/
+    
+### 10.5 Refactor Tags and Ingredients viewsets
+1. Refactor to handle common code b/w both viewsets using a base class. And run test to make sure nothing is breaking.
+    - Test cases helps a lot and gives assurance while code refactoring
+2. recipe/views.py:
+    - Create BaseRecipeViewSet and extend TagViewSet, IngredientViewSet from it
+3. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` with pass
