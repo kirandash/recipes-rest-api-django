@@ -59,6 +59,7 @@ class ModelTests(TestCase):
 
     def test_tag_str(self):
         """Test the tag string representation"""
+        # Check Tag model exists, verify create and retrieve
         # create a tag
         tag = models.Tag.objects.create(
             user=sample_user(),
@@ -67,3 +68,15 @@ class ModelTests(TestCase):
 
         # check if string representation of tag matches the above name
         self.assertEqual(str(tag), tag.name)
+
+    def test_ingredients_str(self):
+        """Test the ingredient string representation"""
+        # Check Ingredient model exists, verify create and retrieve
+        # create an ingredient
+        ingredient = models.Ingredient.objects.create(
+            user=sample_user(),
+            name='Cucumber'
+        )
+
+        # check if string representation of ingredient matches the above name
+        self.assertEqual(str(ingredient), ingredient.name)

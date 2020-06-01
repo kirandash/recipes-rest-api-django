@@ -502,3 +502,15 @@
 2. recipe/views.py:
     - Add CreateModelMixin to TagViewSet
 3. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`
+
+## 10. Create Ingredient endpoint
+### 10.1 Add ingredient model
+1. Test for ingredient model: core/tests/test_models.py file:
+    - Create test case: test_ingredients_str
+    - Run test case: Should fail with "AttributeError: module 'core.models' has no attribute 'Ingredient'"
+2. Create model: core/models.py file:
+    - Create Ingredient model
+3. Make migrations: `docker-compose run --rm app sh -c "python manage.py makemigrations core"`
+4. Apply migrations: `docker-compose run --rm app sh -c "python manage.py migrate core"`
+5. Register ingredient model for admin. @core/admin.py file
+6. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - Pass
