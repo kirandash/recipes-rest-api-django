@@ -530,3 +530,13 @@
 3. Register the view in recipe/urls.py file:
     - `router.register('ingredients', views.IngredientViewSet)`
 4. Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`
+
+### 10.4 Implement feature for creating Ingredients with endpoint
+1. Add test: recipe/tests/test_ingredients_api.py
+    - Add test cases for: test_create_ingredient_successful, test_create_ingredient_invalid
+    - Run test - Fail
+2. recipe/views.py:
+    - Modify IngredientViewSet to add create method
+3. Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` with pass
+4. Test on browser:
+    - http://localhost:8000/api/recipe/ingredients/
