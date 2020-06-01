@@ -515,9 +515,18 @@
 5. Register ingredient model for admin. @core/admin.py file
 6. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - Pass
 
-### 10.2 Add tests for Listing Ingredients
+### 10.2 Add tests for Listing Ingredients endpoint
 1. Create recipe/tests/test_ingredients_api.py
     - add test cases: 
         - Public: test_login_required
         - Private: test_retrieve_ingredient_list, test_ingredients_limited_to_user
     - Run test: fail with "ImportError: cannot import name 'IngredientSerializer' from 'recipe.serializers' (/app/recipe/serializers.py)"
+
+### 10.3 Implement feature for List Ingredients endpoint
+1. recipe/serializers.py file
+    - Create IngredientSerializer and map Ingredient model to serializer
+2. recipe/views.py file:
+    - Create IngredientViewSet
+3. Register the view in recipe/urls.py file:
+    - `router.register('ingredients', views.IngredientViewSet)`
+4. Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`
