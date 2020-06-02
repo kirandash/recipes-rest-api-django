@@ -560,3 +560,10 @@
 5. Apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
 6. Register recipe model to core/admin.py
 7. Test with pass
+
+### 11.2 Add Test for Listing recipes endpoint
+1. create recipe/tests/test_recipe_api.py file:
+    - Add test cases: 
+        - Public: test_auth_required
+        - Private: test_retrieve_recipes, test_recipes_limited_to_user, 
+    - Test fail with "ImportError: cannot import name 'RecipeSerializer' from 'recipe.serializers' (/app/recipe/serializers.py)"
