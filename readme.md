@@ -567,3 +567,11 @@
         - Public: test_auth_required
         - Private: test_retrieve_recipes, test_recipes_limited_to_user, 
     - Test fail with "ImportError: cannot import name 'RecipeSerializer' from 'recipe.serializers' (/app/recipe/serializers.py)"
+
+### 11.3 Implement listing recipes endpoint
+1. recipe/serializers.py
+    - Create RecipeSerializer
+2. recipe/views.py
+    - Create recipe view set: RecipeViewSet extended from ModelViewSet
+3. Map new viewset to recipe/urls.py file
+    - `router.register('recipes', views.RecipeViewSet)`

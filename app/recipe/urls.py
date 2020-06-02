@@ -9,6 +9,7 @@ router = DefaultRouter()
 # register viewset
 router.register('tags', views.TagViewSet)
 router.register('ingredients', views.IngredientViewSet)
+router.register('recipes', views.RecipeViewSet)
 
 # app name for look up by reverse
 app_name = 'recipe'
