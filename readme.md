@@ -547,3 +547,16 @@
 2. recipe/views.py:
     - Create BaseRecipeViewSet and extend TagViewSet, IngredientViewSet from it
 3. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` with pass
+
+## 11. Create Recipe Endpoints
+### 11.1 Create Recipe Model
+1. We will create a new model to handle recipe objects
+2. Add test for the new model. core/tests/test_models.py
+    - Create test case: test_recipe_str
+    - Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` Fail with "AttributeError: module 'core.models' has no attribute 'Recipe'"
+3. core/models.py file
+    - Create model: Recipe
+4. Make migrations: `docker-compose run --rm app sh -c "python manage.py makemigrations core"`
+5. Apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
+6. Register recipe model to core/admin.py
+7. Test with pass
