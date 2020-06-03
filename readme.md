@@ -560,6 +560,8 @@
 5. Apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
 6. Register recipe model to core/admin.py
 7. Test with pass
+8. Docs:
+    - ManyToMany field: https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.ManyToManyField
 
 ### 11.2 Add Test for Listing recipes endpoint
 1. create recipe/tests/test_recipe_api.py file:
@@ -575,3 +577,11 @@
     - Create recipe view set: RecipeViewSet extended from ModelViewSet
 3. Map new viewset to recipe/urls.py file
     - `router.register('recipes', views.RecipeViewSet)`
+4. Docs: 
+    - primarykeyrelatedfield: https://www.django-rest-framework.org/api-guide/relations/#primarykeyrelatedfield
+
+### 11.4 Add test for Recipe detail endpoint
+1. recipe/tests/test_recipe_api.py
+    - Add test case
+    - Run test: should fail with: "ImportError: cannot import name 'RecipeDetailSerializer' from 'recipe.serializers'"
+
