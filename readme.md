@@ -595,3 +595,14 @@
 1. recipe/tests/test_recipe_api.py
     - Create test cases: Private: test_create_basic_recipe, test_create_recipe_with_tags, test_create_recipe_with_ingredients
     - Test fail: 'IntegrityError: null value in column "user_id" violates not-null constraint'
+
+### 11.7 Implement feature for Create recipe endpoint
+1. recipe/views.py
+    - overwrite perform_create to assign recipe to a user
+2. Run test - pass
+3. Test on browser: 
+    - http://127.0.0.1:8000/api/user/token/ login and get token
+    - Add Authorization: Token sss to ModHeader extension
+    - Create tags: http://127.0.0.1:8000/api/recipe/tags/
+    - Create ingredients: http://127.0.0.1:8000/api/recipe/ingredients/
+    - Create a Recipe: http://127.0.0.1:8000/api/recipe/recipes/
