@@ -78,7 +78,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    # default queryset returns all ingredients - overwrite
+    # default queryset returns all recipes - overwrite
     def get_queryset(self):
         """Retrieve the recipes for the authenticated user"""
         return self.queryset.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        """Return appropriate serializer class"""
+        # for retrieve action: return Detail serializer
+        if self.action == 'retrieve':
+            return serializers.RecipeDetailSerializer
+        # for all other actions, return default serializer
+        return self.serializer_class

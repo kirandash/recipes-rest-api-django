@@ -585,3 +585,8 @@
     - Add test case
     - Run test: should fail with: "ImportError: cannot import name 'RecipeDetailSerializer' from 'recipe.serializers'"
 
+### 11.5 Implement feature for Recipe detail endpoint
+1. recipe/serializers.py
+    - Create RecipeDetailSerializer extended from RecipeSerializer
+2. recipe/views.py
+    - Add RecipeDetailSerializer to RecipeViewSet
