@@ -606,3 +606,9 @@
     - Create tags: http://127.0.0.1:8000/api/recipe/tags/
     - Create ingredients: http://127.0.0.1:8000/api/recipe/ingredients/
     - Create a Recipe: http://127.0.0.1:8000/api/recipe/recipes/
+
+### 11.8 Add Test for Updating recipe endpoint
+1. Optional: since update feature comes built in with DRF ModelViewSet. Will do just for concept.
+2. Put vs Patch: Patch is used to update the specific fields that are provided in the payload. While with PUT, the whole object is replaced with payload.
+3. recipe/test_recipe_api.py:
+    - Add test cases: test_partial_update_recipe, test_full_update_recipe
