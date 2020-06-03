@@ -590,3 +590,8 @@
     - Create RecipeDetailSerializer extended from RecipeSerializer
 2. recipe/views.py
     - Add RecipeDetailSerializer to RecipeViewSet
+
+### 11.6 Add test for Create recipe endpoint
+1. recipe/tests/test_recipe_api.py
+    - Create test cases: Private: test_create_basic_recipe, test_create_recipe_with_tags, test_create_recipe_with_ingredients
+    - Test fail: 'IntegrityError: null value in column "user_id" violates not-null constraint'
