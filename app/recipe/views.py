@@ -1,5 +1,9 @@
+# action decorator to define custom actions for viewsets
+from rest_framework.decorators import action
+# to return a custom response
+from rest_framework.response import Response
 # mixin to extract only list view from viewsets
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -78,6 +82,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    # default actions - overwritten
     # default queryset returns all recipes - overwrite
     def get_queryset(self):
         """Retrieve the recipes for the authenticated user"""
@@ -88,6 +93,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         # for retrieve action: return Detail serializer
         if self.action == 'retrieve':
             return serializers.RecipeDetailSerializer
+        elif self.action == 'upload_image':
+            return serializers.RecipeImageSerializer
         # for all other actions, return default serializer
         return self.serializer_class
 
@@ -96,3 +103,31 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Create a new recipe"""
         serializer.save(user=self.request.user)
+
+    # custom action, method: post, detail True for specific recipe
+    # path: recipe/{recipe-id}/upload-image
+    @action(methods=['POST'], detail=True, url_path='upload-image')
+    # pk: recipe id
+    def upload_image(self, request, pk=None):
+        """Upload an image to a recipe"""
+        # get the current recipe object based on id in url
+        recipe = self.get_object()
+        serializer = self.get_serializer(
+            recipe,
+            data=request.data
+        )
+
+        # check if serializer is valid
+        if serializer.is_valid():
+            # save recipe serializer
+            serializer.save()
+            # custom response
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+
+        return Response(
+            serializer.errors,  # default DRF errors
+            status=status.HTTP_400_BAD_REQUEST
+        )

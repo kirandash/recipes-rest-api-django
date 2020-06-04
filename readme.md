@@ -653,3 +653,16 @@
 1. recipe/test_recipe_api.py
     - Add test cases: test_upload_image_to_recipe, test_upload_image_bad_request
 2. Run test - fail "django.urls.exceptions.NoReverseMatch: Reverse for 'recipe-upload-image' not found. 'recipe-upload-image' is not a valid view function or pattern name."
+
+### 12.4 Add feature to upload image
+1. recipe/serializers.py
+    - Create RecipeImageSerializer
+2. recipe/views.py
+    - Modify RecipeViewSet, Create action upload_image
+3. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
+4. Test in browser:
+    - http://127.0.0.1:8000/api/user/token/ login and get token
+    - Add Authorization: Token sss to ModHeader extension
+    - Visit recipe detail view: http://localhost:8000/api/recipe/recipes/1/upload-image/
+    - post image,
+    - should return id and image (full url) in response
