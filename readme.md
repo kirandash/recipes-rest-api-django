@@ -683,3 +683,13 @@
     - Add test cases: test_filter_recipe_by_tags, test_filter_recipes_by_ingredients
 2. Test - Fail with AssertionError
 
+### 13.2 Implement feature to filter recipes
+1. recipe/views.py
+    - Modify get_queryset
+    - Note: In python there is no private/public fns: all fns in a class are public by defauly. But we can indicate private fn by mentioning _ at beginning of a fn.
+2. Test: `docker-compose run --rm app sh -c "python manage.py test && flake8"`
+3. Test on browser: 
+    - All recipes: http://localhost:8000/api/recipe/recipes/
+    - Filtered recipes: http://localhost:8000/api/recipe/recipes/?ingredients=2
+    - Filtered recipes with tags: http://localhost:8000/api/recipe/recipes/?tags=1
+    - Filter with multiple attr: http://localhost:8000/api/recipe/recipes/?tags=1&ingredients=2
