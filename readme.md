@@ -636,6 +636,8 @@
     - `STATIC_ROOT = '/vol/web/static'`: tells django where all the static files are stored.
 6. app/urls.py: add url for media file. Note: Django by default will serve all static files at /static/ path. But the media files need to be added manually.    - `+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)`
 7. Build docker: `docker-compose down`, `docker-compose build`, `docker-compose up` to create a build by installing pillow and all dependencies we added.
+8. Docs:
+    - Pillow: https://pillow.readthedocs.io/en/stable/
 
 ### 12.2 Modifying recipe model to accept image field
 1. Note: during image upload, change the image name to avoid conflict with existing names.
@@ -648,11 +650,15 @@
 5. makemigrations: `docker-compose run --rm app sh -c "python manage.py makemigrations core"`
 6. apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
 7. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
-
+8. Docs:
+    - DJ ImageField: https://docs.djangoproject.com/en/3.0/ref/models/fields/#imagefield
+    
 ### 12.3 Add tests for uploading image to recipe
 1. recipe/test_recipe_api.py
     - Add test cases: test_upload_image_to_recipe, test_upload_image_bad_request
 2. Run test - fail "django.urls.exceptions.NoReverseMatch: Reverse for 'recipe-upload-image' not found. 'recipe-upload-image' is not a valid view function or pattern name."
+3. Docs:
+    - uuid: https://docs.python.org/3/library/uuid.html#uuid.uuid4
 
 ### 12.4 Add feature to upload image
 1. recipe/serializers.py
@@ -666,3 +672,14 @@
     - Visit recipe detail view: http://localhost:8000/api/recipe/recipes/1/upload-image/
     - post image,
     - should return id and image (full url) in response
+5. Docs:
+    - DJ FileField upload_to:  https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.FileField.upload_to
+    - Named Temporary File: https://docs.python.org/3/library/tempfile.html#tempfile.NamedTemporaryFile
+    - DRF: Adding action to viewset: https://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
+
+## 13. Add Filters
+### 13.1 Add tests for filtering recipes
+1. recipe/test_recipe_api.py
+    - Add test cases: test_filter_recipe_by_tags, test_filter_recipes_by_ingredients
+2. Test - Fail with AssertionError
+
