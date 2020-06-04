@@ -22,7 +22,18 @@ class BaseRecipeViewSet(viewsets.GenericViewSet,
     # default queryset returns all objects - overwrite
     def get_queryset(self):
         """Return objects for current authenticated user only"""
-        return self.queryset.filter(user=self.request.user).order_by('-name')
+        assigned_only = bool(
+            # get('assigned_only', 0): 0 overwrites default value of 'None'
+            int(self.request.query_params.get('assigned_only', 0))  # 0 or 1
+        )  # T/F
+        queryset = self.queryset
+        if assigned_only:
+            # will return recipes that are assigned to the object
+            queryset = queryset.filter(recipe__isnull=False)
+        # return self.queryset.filter(user=self.request.user).order_by('-name')
+        return queryset.filter(
+            user=self.request.user
+        ).order_by('-name').distinct()  # distinct to return unique items only
 
     # overwrite the default create method to assign object to a user
     def perform_create(self, serializer):

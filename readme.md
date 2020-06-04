@@ -704,3 +704,13 @@
 4. recipe/test_ingredients_api.py
     - Add test cases: test_retrieve_ingredients_assigned_to_recipe, test_retrieve_ingredients_assigned_unique
 5. Test must fail with AssertionError
+
+### 13.4 Implement feature for filtering tags and ingredients
+1. recipe/views.py
+    - Modify get_queryset in BaseRecipeViewSet
+2. Run test - pass
+3. Test on browser: 
+    - http://localhost:8000/api/recipe/tags/ will return all tags created
+    - http://localhost:8000/api/recipe/tags/?assigned_only=1 will return tags that are assigned to any recipe.
+    - http://localhost:8000/api/recipe/ingredients/ will return all ingredients
+    - http://localhost:8000/api/recipe/ingredients/?assigned_only=1 will return ingredients that are assigned to any recipe.
