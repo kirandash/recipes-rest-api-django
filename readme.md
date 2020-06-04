@@ -693,3 +693,14 @@
     - Filtered recipes: http://localhost:8000/api/recipe/recipes/?ingredients=2
     - Filtered recipes with tags: http://localhost:8000/api/recipe/recipes/?tags=1
     - Filter with multiple attr: http://localhost:8000/api/recipe/recipes/?tags=1&ingredients=2
+
+### 13.3 add tests for filtering tags and ingredients
+1. Will add filter to tags and ingredients. To filter out all the assigned tags
+2. recipe/test_tags_api.py
+    - Add test cases: 
+        - test_retrieve_tag_assigned_to_recipes
+        - test_retrieve_tags_assigned_unique: by default the assigned_only filter will return duplicate tags if the same tag is used in multiple recipes. We should add code later to check that duplicate items are not returned.
+3. Test must fail with AssertionError
+4. recipe/test_ingredients_api.py
+    - Add test cases: test_retrieve_ingredients_assigned_to_recipe, test_retrieve_ingredients_assigned_unique
+5. Test must fail with AssertionError
