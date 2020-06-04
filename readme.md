@@ -584,12 +584,17 @@
 1. recipe/tests/test_recipe_api.py
     - Add test case
     - Run test: should fail with: "ImportError: cannot import name 'RecipeDetailSerializer' from 'recipe.serializers'"
+2. Docs:
+    - get_serializer_class: https://www.django-rest-framework.org/api-guide/generic-views/#get_serializer_classself
+    - getattr: https://docs.python.org/3/library/functions.html#getattr
 
 ### 11.5 Implement feature for Recipe detail endpoint
 1. recipe/serializers.py
     - Create RecipeDetailSerializer extended from RecipeSerializer
 2. recipe/views.py
     - Add RecipeDetailSerializer to RecipeViewSet
+3. Docs:
+    - associating-snippets-with-users: https://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/#associating-snippets-with-users
 
 ### 11.6 Add test for Create recipe endpoint
 1. recipe/tests/test_recipe_api.py
@@ -612,3 +617,22 @@
 2. Put vs Patch: Patch is used to update the specific fields that are provided in the payload. While with PUT, the whole object is replaced with payload.
 3. recipe/test_recipe_api.py:
     - Add test cases: test_partial_update_recipe, test_full_update_recipe
+
+## 12. Add Upload Image endpoint
+### 12.1 Add Pillow requirement
+1. Install Pillow python package. (required to handle images in django)
+    - https://pypi.org/project/Pillow/
+    - Add Pillow to requirements.txt file
+2. Add Pillow dependencies in Dockerfile
+    - app dependencies:(needed to run app) `jpeg-dev`: add support for jpeg binaries in Dockerfile
+    - build dependencies:(needed to run build and can be removed) `musl-dev zlib zlib-dev`
+3. Create directory for upload using Dockerfile `RUN mkdir -p /vol/web/media` and `RUN mkdir -p /vol/web/static` for static files: viz HTML, CSS, JS etc. (-p tells docker to create all the sub directories if they does not exist eg: create vol or web if it doesn't exist)
+4. Add permission for user to the vol directory
+    - `RUN chown -R user:user /vol/` (-R: recurisve: covers vol + all sub directories) user has all the permission
+    - `RUN chmod -R 755 /vol/web` (Others has read permission)
+5. Configure settings.py file: 
+    - map folders to url: `STATIC_URL = '/static/' MEDIA_URL = '/media/'` tells django where to serve static and media files
+    - `MEDIA_ROOT = '/vol/web/media'`: tells django where all the media files are stored.
+    - `STATIC_ROOT = '/vol/web/static'`: tells django where all the static files are stored.
+6. app/urls.py: add url for media file. Note: Django by default will serve all static files at /static/ path. But the media files need to be added manually.    - `+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)`
+7. Build docker: `docker-compose down`, `docker-compose build`, `docker-compose up` to create a build by installing pillow and all dependencies we added.
