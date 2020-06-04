@@ -636,3 +636,15 @@
     - `STATIC_ROOT = '/vol/web/static'`: tells django where all the static files are stored.
 6. app/urls.py: add url for media file. Note: Django by default will serve all static files at /static/ path. But the media files need to be added manually.    - `+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)`
 7. Build docker: `docker-compose down`, `docker-compose build`, `docker-compose up` to create a build by installing pillow and all dependencies we added.
+
+### 12.2 Modifying recipe model to accept image field
+1. Note: during image upload, change the image name to avoid conflict with existing names.
+2. core/test_models.py
+    - Add test case: test_recipe_file_name_uuid
+3. Test should fail with "AttributeError: module 'core.models' has no attribute 'recipe_image_file_path'"
+4. core/models.py
+    - Create fn: recipe_image_file_path
+    - Add image field to recipe model
+5. makemigrations: `docker-compose run --rm app sh -c "python manage.py makemigrations core"`
+6. apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
+7. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass

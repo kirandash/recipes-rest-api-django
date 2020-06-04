@@ -1,9 +1,20 @@
+import uuid
+import os
 from django.db import models
 # imports required from django to customize use rmodel
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 # To retrieve AUTH settings
 from django.conf import settings
+
+
+def recipe_image_file_path(instance, filename):
+    """Generate file path for new recipe image"""
+    ext = filename.split('.')[-1]  # return extension of filename
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    # return a valid file name with path
+    return os.path.join('uploads/recipe/', filename)
 
 
 # user manager class - provides helper fn for creating user / superuser
@@ -92,6 +103,8 @@ class Recipe(models.Model):
     # but that way, will hv to make sure that Ingredient class is above Recipe
     ingredients = models.ManyToManyField('Ingredient')
     tags = models.ManyToManyField('Tag')
+    # don't call fn, send a reference which will be called by django
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
     # string representation of Recipe model on admin
     def __str__(self):

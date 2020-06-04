@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.test import TestCase
 # always use helper fn get_user_model fn instead of importing the entire model.
 # So in future if model is changed, we don't need to change all the references
@@ -91,3 +93,15 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(recipe), recipe.title)
+
+    # module uuid, uuid4 is a fn that will generate version: uuid4
+    @patch('uuid.uuid4')
+    def test_recipe_file_name_uuid(self, mock_uuid):
+        """Test that image is saved in the correct location"""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        # create a file path
+        file_path = models.recipe_image_file_path(None, 'myimage.jpg')
+        # expected path, string interpolation(Python3 feature)
+        exp_path = f'uploads/recipe/{uuid}.jpg'
+        self.assertEqual(file_path, exp_path)
