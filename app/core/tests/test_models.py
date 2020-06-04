@@ -1,3 +1,4 @@
+# built in python fn to mock uuid fn
 from unittest.mock import patch
 
 from django.test import TestCase

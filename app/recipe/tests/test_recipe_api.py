@@ -1,3 +1,12 @@
+# fn from python that allows us to generate temp files
+import tempfile
+# helps to create path name / check if path exists
+import os
+
+# Python Image Library: Pillow requirement. Pillow was a fork of PIL
+# helps to create test image that can be used to upload image
+from PIL import Image
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -13,6 +22,11 @@ from recipe.serializers import RecipeSerializer, RecipeDetailSerializer
 RECIPES_URL = reverse('recipe:recipe-list')
 # recipes list API: /api/recipe/recipes/
 # recipe details API: /api/recipe/recipes/1/
+
+
+def image_upload_url(recipe_id):
+    """Return url for recipe image upload"""
+    return reverse('recipe:recipe-upload-image', args=[recipe_id])
 
 
 # Helper fn to generate recipe detail URL
@@ -208,3 +222,47 @@ class PrivateRecipeApiTest(TestCase):
         # tags should be removed after put since not passed in payload
         tags = recipe.tags.all()
         self.assertEqual(len(tags), 0)
+
+
+class RecipeImageUploadTests(TestCase):
+
+    # set up to run before running tests
+    def setUp(self):
+        self.client = APIClient()
+        self.user = get_user_model().objects.create_user(
+            'test@bgwebagency.com',
+            'django1234'
+        )
+        self.client.force_authenticate(self.user)
+        self.recipe = sample_recipe(user=self.user)
+
+    # fn will run after running tests
+    def tearDown(self):
+        # make sure all images are deleted from recipe object after test
+        self.recipe.image.delete()
+
+    def test_upload_image_to_recipe(self):
+        """Test uploading an image to recipe"""
+        url = image_upload_url(self.recipe.id)
+        # create named temporary file at random location temp/
+        with tempfile.NamedTemporaryFile(suffix='.jpg') as ntf:
+            # Generate small image with PIL: Black image 10x10px
+            img = Image.new('RGB', (10, 10))
+            # save image in ntf
+            img.save(ntf, format='JPEG')
+            # set the pointer back to beginning of file since on save the
+            # pointer moves to EOF
+            ntf.seek(0)
+            res = self.client.post(url, {'image': ntf}, format='multipart')
+
+        self.recipe.refresh_from_db()
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn('image', res.data)
+        self.assertTrue(os.path.exists(self.recipe.image.path))
+
+    def test_upload_image_bad_request(self):
+        """Test uploading an invalid image"""
+        url = image_upload_url(self.recipe.id)
+        res = self.client.post(url, {'image': 'notimage'}, format='multipart')
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

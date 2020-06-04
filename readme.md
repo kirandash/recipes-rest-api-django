@@ -648,3 +648,8 @@
 5. makemigrations: `docker-compose run --rm app sh -c "python manage.py makemigrations core"`
 6. apply migration: `docker-compose run --rm app sh -c "python manage.py migrate core"`
 7. Run test: `docker-compose run --rm app sh -c "python manage.py test && flake8"` - pass
+
+### 12.3 Add tests for uploading image to recipe
+1. recipe/test_recipe_api.py
+    - Add test cases: test_upload_image_to_recipe, test_upload_image_bad_request
+2. Run test - fail "django.urls.exceptions.NoReverseMatch: Reverse for 'recipe-upload-image' not found. 'recipe-upload-image' is not a valid view function or pattern name."
